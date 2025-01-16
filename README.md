@@ -10,3 +10,5 @@ Tempo is a ground up caching solution implemented in Go. It is designed to be a 
 - [Planned] Flexible cache size and expiration control
 - [Planned] Compression solution for large cache values
 - [Planned] Custom cache value serialization
+- [Planned] Persistence Layer
+- [Planned] Recovery
