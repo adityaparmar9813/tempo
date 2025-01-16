@@ -45,13 +45,12 @@ func (lru *LeastRecentlyUsed) Put(key string, value interface{}) {
 		element.Value.(*LRUNode).Value = value
 		return
 	}
+	if lru.evictList.Len() >= lru.capacity {
+		lru.evict()
+	}
 
 	element := lru.evictList.PushFront(&LRUNode{Key: key, Value: value})
 	lru.items[key] = element
-
-	if lru.evictList.Len() > lru.capacity {
-		lru.evict()
-	}
 }
 
 func (lru *LeastRecentlyUsed) evict() {
@@ -72,9 +71,6 @@ func (lru *LeastRecentlyUsed) Remove(key string) bool {
 }
 
 func (lru *LeastRecentlyUsed) removeElement(element *list.Element) {
-	lru.mutex.Lock()
-	defer lru.mutex.Unlock()
-
 	lru.evictList.Remove(element)
 	node := element.Value.(*LRUNode)
 	delete(lru.items, node.Key)

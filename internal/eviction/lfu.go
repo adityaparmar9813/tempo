@@ -85,7 +85,6 @@ func (lfu *LeastFrequentlyUsed) Put(key string, value interface{}) {
 	if element, exists := lfu.items[key]; exists {
 		node := element.Value.(*LFUNode)
 		node.Value = value
-		lfu.Get(key)
 		return
 	}
 
